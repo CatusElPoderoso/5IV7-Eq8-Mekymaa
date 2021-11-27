@@ -267,6 +267,15 @@ def registrarPN(request,puntaje):
         q = "INSERT INTO puntaje (puntaje,mododejuego,fecha,id_usu) VALUES ('"+puntaje+"','Normal','"+str(fecha)+"','"+str(request.session.get('id_usu','0'))+"')"
         cursor.execute(q)
         miconexion.commit()
+        clasificacion="Mekymador"
+        if(promedio<200):
+            clasificacion="!LEYENDA!"
+        clasificacion="!LEYENDA!"
+        if(promedio<150):
+            clasificacion="TITAN"
+        clasificacion="TITAN"
+        if(promedio<120):
+            clasificacion="campeon"
         clasificacion="campeon"
         if(promedio<90):
             clasificacion="oro"
@@ -384,18 +393,18 @@ def Historial(request):
     q = "select * from puntaje where id_usu = '"+str(idu)+"' order by id_punt desc limit 4"
     cursor.execute(q)
     rs=cursor.fetchall()
-    dato1="No haz jugado"
-    dato2="No haz jugado"
-    dato3="No haz jugado"
-    dato4="No haz jugado"
-    modo1="No haz jugado"
-    modo2="No haz jugado"
-    modo3="No haz jugado"
-    modo4="No haz jugado"
-    fecha1="No haz jugado"
-    fecha2="No haz jugado"
-    fecha3="No haz jugado"
-    fecha4="No haz jugado"
+    dato1="No has jugado"
+    dato2="No has jugado"
+    dato3="No has jugado"
+    dato4="No has jugado"
+    modo1="No has jugado"
+    modo2="No has jugado"
+    modo3="No has jugado"
+    modo4="No has jugado"
+    fecha1="No has jugado"
+    fecha2="No has jugado"
+    fecha3="No has jugado"
+    fecha4="No has jugado"
     try:
         dato1=rs[0][1]
         modo1=rs[0][2]
