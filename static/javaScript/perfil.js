@@ -24,8 +24,8 @@ const clasificacion = document.querySelector( '#clasificacion' );
 const validacionClasificacion = () => {
 
     if ( clasificacion.value ) {
-        console.log( 'Ya tienes una clasificacion' );
-        textoP.innerHTML = `Mira nada mas lo que has encontrado, aqui <br>podras ver tus datos, modificarlos y ver tu <br>mejor puntaje sacado hasta el momento`;
+        console.log( 'Ya tienes una clasificaci&oacute;n' );
+        textoP.innerHTML = `Mira nada m&aacute;s lo que has encontrado. Aqu&iacute; podr&aacute;s <br>ver tus datos, modificarlos y ver tu mejor puntaje <br>sacado hasta el momento`;
         ahoraBtn.href = '/jugar';
         ahoraBtn.innerHTML = 'Continue playing';
         img.style.display = 'block';
@@ -33,8 +33,8 @@ const validacionClasificacion = () => {
         imgBx.style.display = 'none';
         formBx.style.display = 'flex';
     } else {
-        console.log( 'No tienes una clasificacion' );
-        textoP.innerHTML = `Mira nada mas lo que has encontrado, aqui podras<br> ver tus datos, modificarlos y ver tu mejor puntaje<br> sacado hasta el momento, pero.. ¿Porque <br>no has jugado aun ? que estas esperando`;
+        console.log( 'No tienes una clasificaci&oacute;n' );
+        textoP.innerHTML = `Mira nada m&aacute;s lo que has encontrado. Aqu&iacute; podr&aacute;s <br>ver tus datos, modificarlos y ver tu mejor puntaje <br>sacado hasta el momento, pero... ¿Por qu&eacute; <br>no has jugado a&uacute;n?`;
         ahoraBtn.href = '/jugar';
         ahoraBtn.innerHTML = 'Start top play';
         clasificacion.placeholder = 'Ops! you have not played'
@@ -54,7 +54,7 @@ const validacionUsuario = () => {
     if ( !usuario) {
         console.log( 'No estas registrado!' );
         textoH.innerHTML = 'Your need to register';
-        textoP.innerHTML = `Mmm parece ser que no estas registrado, que te <br>parece si comenzamos tu registro y asi poder <br>ver tu clasificacion en mekymaa`;
+        textoP.innerHTML = `Mmm al parecer no est&aacute;s registrado, ¿Qu&eacute; te <br>parece si comenzamos tu registro para que puedas <br>ver tu clasificaci&oacute;n en Mekymaa?`;
         ahoraBtn.href = '/iniciarCuenta';
         ahoraBtn.innerHTML = 'Go to login';
         img.style.display = 'none';
