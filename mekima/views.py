@@ -437,6 +437,7 @@ def Historial(request):
     documento=plt.render(ctx)
     return HttpResponse(documento)
 
+@csrf_exempt
 def configurar(request):
     letrasGuardadas = ""
     estado = ""
@@ -448,17 +449,17 @@ def configurar(request):
     THUMB_TIP_LEFT = [" "]
 
     PINKY_TIP_RIGHT = ["Backspace","¿","'","0","Enter","+","Dead","p","}","{","ñ","Shift","-","Control","ContextMenu"]
-    RING_FINGER_TIP_RIGHT= ["0","o","l","."]
+    RING_FINGER_TIP_RIGHT= ["0","o","l",".","9"]
     MIDDLE_FINGER_TIP_RIGHT= ["8","i","k",",","AltGraph"]
     INDEX_FINGER_TIP_RIGHT= ["6","7","y","u","h","j","n","m"]
     THUMB_TIP_RIGHT= [" "]
 
-    teclas = ["|","1","Tab","q","CapsLock","a","Shift","<","z","Control","Meta","2","w","s","x","Alt","3","e","d","c","4","5","r","t","f","g","v","b","Backspace","¿","'","0","Enter","+","Dead","p","}","{","ñ","Shift","-","Control","ContextMenu","0","o","l",".","8","i","k",",","AltGraph","6","7","y","u","h","j","n","m"]
+    teclas = ["9","|","1","Tab","q","CapsLock","a","Shift","<","z","Control","Meta","2","w","s","x","Alt","3","e","d","c","4","5","r","t","f","g","v","b","Backspace","¿","'","0","Enter","+","Dead","p","}","{","ñ","Shift","-","Control","ContextMenu","0","o","l",".","8","i","k",",","AltGraph","6","7","y","u","h","j","n","m"]
 
     def redondear (x,y,z):
         print(x)
         print(y)
-        return str(x-0.1225*-z)+","+str(x+0.1225*-z)+","+str(y-0.1225*-z)+","+str(y+0.1225*-z)
+        return str(x-0.25*-z)+","+str(x+0.25*-z)+","+str(y-0.25*-z)+","+str(y+0.25*-z)
 
     mp_hands = mp.solutions.hands
     imagen = request.POST.get("imagen")
@@ -496,21 +497,27 @@ def configurar(request):
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].z)
-                        coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                            coords = redondear(coordsx[1],coordsy[1],coordsz[1])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in RING_FINGER_TIP_LEFT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].z)
-                        coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                            coords = redondear(coordsx[1],coordsy[1],coordsz[1])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in MIDDLE_FINGER_TIP_LEFT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].z)
-                        coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                            coords = redondear(coordsx[1],coordsy[1],coordsz[1])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in INDEX_FINGER_TIP_LEFT:
                         print("soy el dedo index left")
@@ -518,44 +525,45 @@ def configurar(request):
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].z)
-                        coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                            coords = redondear(coordsx[1],coordsy[1],coordsz[1])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in THUMB_TIP_LEFT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].z)
-                        coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                            coords = redondear(coordsx[1],coordsy[1],coordsz[1])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in PINKY_TIP_RIGHT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].z)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             coords = redondear(coordsx[1],coordsy[1],coordsz[1])
-                        else:
-                            coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in RING_FINGER_TIP_RIGHT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].z)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             coords = redondear(coordsx[1],coordsy[1],coordsz[1])
-                        else:
-                            coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in MIDDLE_FINGER_TIP_RIGHT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].z)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             coords = redondear(coordsx[1],coordsy[1],coordsz[1])
-                        else:
-                            coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in INDEX_FINGER_TIP_RIGHT:
                         print("soy el dedo index right")
@@ -563,20 +571,18 @@ def configurar(request):
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].z)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             coords = redondear(coordsx[1],coordsy[1],coordsz[1])
-                        else:
-                            coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     elif letra in THUMB_TIP_RIGHT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].y)
                             coordsz.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].z)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             coords = redondear(coordsx[1],coordsy[1],coordsz[1])
-                        else:
-                            coords = redondear(coordsx[0],coordsy[0],coordsz[0])
+                        else: coords = redondear(coordsx[0],coordsy[0],coordsz[0])
                         print(coords)
                     request.session[letra] = coords
                     estado = "tecla guardada con exito"
@@ -616,7 +622,7 @@ def jugarNormal(request):
     THUMB_TIP_LEFT = [" "]
 
     PINKY_TIP_RIGHT = ["Backspace","¿","'","0","Enter","+","Dead","p","}","{","ñ","Shift","-","Control","ContextMenu"]
-    RING_FINGER_TIP_RIGHT= ["0","o","l","."]
+    RING_FINGER_TIP_RIGHT= ["0","o","l",".","9"]
     MIDDLE_FINGER_TIP_RIGHT= ["8","i","k",",","AltGraph"]
     INDEX_FINGER_TIP_RIGHT= ["6","7","y","u","h","j","n","m"]
     THUMB_TIP_RIGHT= [" "]
@@ -667,69 +673,74 @@ def jugarNormal(request):
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].y)
-                            errores = comprobar(coordsx[0],coordsy[0])
+                            if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                                errores = comprobar(coordsx[1],coordsy[1])
+                            else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in RING_FINGER_TIP_LEFT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].y)
-                            errores = comprobar(coordsx[0],coordsy[0])
+                            if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                                errores = comprobar(coordsx[1],coordsy[1])
+                            else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in MIDDLE_FINGER_TIP_LEFT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y)
-                            errores = comprobar(coordsx[0],coordsy[0])
+                            if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                                errores = comprobar(coordsx[1],coordsy[1])
+                            else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in INDEX_FINGER_TIP_LEFT:
                         print("soy el dedo index left")
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y)
-                            errores = comprobar(coordsx[0],coordsy[0])
+                            if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                                errores = comprobar(coordsx[1],coordsy[1])
+                            else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in THUMB_TIP_LEFT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].y)
-                            errores = comprobar(coordsx[0],coordsy[0])
+                            if len(coordsx) == 2 and coordsx[0] > coordsx[1]:
+                                errores = comprobar(coordsx[1],coordsy[1])
+                            else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in PINKY_TIP_RIGHT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].y)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             errores = comprobar(coordsx[1],coordsy[1])
-                        else:
-                            errores = comprobar(coordsx[0],coordsy[0])
+                        else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in RING_FINGER_TIP_RIGHT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].y)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             errores = comprobar(coordsx[1],coordsy[1])
-                        else:
-                            errores = comprobar(coordsx[0],coordsy[0])
+                        else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in MIDDLE_FINGER_TIP_RIGHT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             errores = comprobar(coordsx[1],coordsy[1])
-                        else:
-                            errores = comprobar(coordsx[0],coordsy[0])
+                        else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in INDEX_FINGER_TIP_RIGHT:
                         print("soy el dedo index right")
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             errores = comprobar(coordsx[1],coordsy[1])
-                        else:
-                            errores = comprobar(coordsx[0],coordsy[0])
+                        else: errores = comprobar(coordsx[0],coordsy[0])
                     elif letra in THUMB_TIP_RIGHT:
                         for hand_landmarks in results.multi_hand_landmarks:
                             coordsx.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].x)
                             coordsy.append(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].y)
-                        if len(coordsx) == 2:
+                        if len(coordsx) == 2 and coordsx[1] > coordsx[0]:
                             errores = comprobar(coordsx[1],coordsy[1])
-                        else:
-                            errores = comprobar(coordsx[0],coordsy[0])
+                        else: errores = comprobar(coordsx[0],coordsy[0])
                     estado = "si se detecto la mano"
                 except Exception as e:
                     print(e," Algo paso pero si se detecto la mano")

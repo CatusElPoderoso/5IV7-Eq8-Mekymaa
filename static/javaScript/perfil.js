@@ -53,8 +53,8 @@ const validacionUsuario = () => {
 
     if ( !usuario) {
         console.log( 'No estas registrado!' );
-        textoH.innerHTML = 'Your need to register';
-        textoP.innerHTML = `Mmm al parecer no est&aacute;s registrado, ¿Qu&eacute; te <br>parece si comenzamos tu registro para que puedas <br>ver tu clasificaci&oacute;n en Mekymaa?`;
+        textoH.innerHTML = 'You need to register';
+        textoP.innerHTML = `Mmmm... al parecer no est&aacute;s registrado, ¿Qu&eacute; te <br>parece si comenzamos tu registro para que puedas <br>ver tu clasificaci&oacute;n en Mekymaa? uwu`;
         ahoraBtn.href = '/iniciarCuenta';
         ahoraBtn.innerHTML = 'Go to login';
         img.style.display = 'none';
